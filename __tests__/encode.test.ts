@@ -1,4 +1,5 @@
-import { encode, isString, shouldCoerceToNull } from '../src/index';
+import { encode } from '../src/index';
+import { shouldCoerceToNull, isString } from '../src/identifyType';
 
 describe('isString', () => {
   it('returns true for strings and objects constructed with the String constructor', () => {
@@ -55,6 +56,27 @@ describe('encode', () => {
       { foo: 'bar' },
       [1, 3, true],
       new Date('1995-12-17T03:24:00'),
+      [
+        'a',
+        3,
+        function double(n: any) {
+          return n * 2;
+        },
+        [
+          'a',
+          3,
+          function double(n: any) {
+            return n * 2;
+          },
+          [],
+          Symbol('foo'),
+          undefined,
+          null,
+        ],
+        Symbol('foo'),
+        undefined,
+        null,
+      ],
     ];
     const result = input.map(encode);
     expect(result).toStrictEqual([
@@ -63,15 +85,16 @@ describe('encode', () => {
       'null',
       'null',
       '2',
-      'foo',
+      '"foo"',
       'true',
       'true',
       '9007199254740991',
       'null',
       'null',
       '',
-      '',
+      '[1,3,true]',
       '1995-12-16T14:24:00.000Z',
+      '["a",3,null,["a",3,null,[],null,null,null],null,null,null]',
     ]);
   });
 });
