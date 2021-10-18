@@ -1,4 +1,4 @@
-import { encode } from '../src/index';
+import { encode } from '../src/encode';
 import { shouldCoerceToNull, isString } from '../src/identifyType';
 
 describe('isString', () => {

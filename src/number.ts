@@ -1,4 +1,4 @@
-import { coerceToJsonNull } from 'src';
+import { coerceToJsonNull } from './utils';
 
 export const isNumber = (data: any) =>
   typeof data === 'number' || typeof data === 'bigint';

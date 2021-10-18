@@ -7,10 +7,9 @@ import {
   shouldCoerceToNull,
 } from './identifyType';
 import { transformArray } from './array';
+import { coerceDateToJSONString, coerceToJsonNull } from './utils';
 
-export const coerceToJsonNull = () => String(null);
 export const coerceToString = (val: string | number) => `"${val.toString()}"`;
-export const coerceDateToJSONString = (date: Date) => date.toJSON();
 
 export const encode = (data: any) => {
   return shouldCoerceToNull(data)

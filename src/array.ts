@@ -1,4 +1,4 @@
-import { encode } from 'src';
+import { encode } from './encode';
 
 export const transformArray = (arr: any[]) => {
   const partial: any[] = [];
