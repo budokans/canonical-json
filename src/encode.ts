@@ -9,6 +9,7 @@ import {
 import { transformArray } from './array';
 import { coerceDateToJSONString, coerceToJsonNull } from './utils';
 import { coerceToString } from './string';
+import { transformObject } from './object';
 
 const wrapWithSingleQuotes = (data: any) => ''.concat(data);
 
@@ -25,5 +26,5 @@ export const encode = (data: any) => {
     ? `${handleNumber(data)}`
     : isArray(data)
     ? transformArray(data)
-    : '';
+    : transformObject(data);
 };
