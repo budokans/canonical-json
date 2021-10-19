@@ -1,7 +1,15 @@
 export const isNumber = (data: any) => typeof data === 'number';
 
+export const isUnsafeNum = (num: number) =>
+  num < Number.MIN_SAFE_INTEGER || num > Number.MAX_SAFE_INTEGER;
+
+export const formatNonInt = (num: number) =>
+  num.toExponential().toUpperCase().replace('+', '');
+
 export const handleNumber = (num: number) => {
-  return Number.isInteger(num) && num <= Number.MAX_SAFE_INTEGER
+  return isUnsafeNum(num)
+    ? null
+    : Number.isInteger(num)
     ? num.toFixed()
-    : null;
+    : formatNonInt(num);
 };

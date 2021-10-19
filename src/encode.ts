@@ -23,7 +23,7 @@ export const encode = (data: any) => {
     : isDate(data)
     ? coerceDateToJSONString(data)
     : isNumber(data)
-    ? `${handleNumber(data)}`
+    ? wrapWithSingleQuotes(handleNumber(data))
     : isArray(data)
     ? transformArray(data)
     : transformObject(data);
