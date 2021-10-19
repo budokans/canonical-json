@@ -88,7 +88,7 @@ describe('transformObject', () => {
       3: 'one',
       the: [1, true, Symbol(), undefined, { foo: 'bar' }],
       obj: {
-        a: BigInt(2222222),
+        a: 2222222,
         b: false,
       },
     };
@@ -97,5 +97,6 @@ describe('transformObject', () => {
       '{"3":"one","a":2,"obj":{"a":2222222,"b":false},"the":[1,true,null,null,{"foo":"bar"}]}';
 
     expect(transformObject(input)).toStrictEqual(expected);
+    expect(JSON.stringify(input)).toStrictEqual(expected);
   });
 });

@@ -2,7 +2,7 @@ import { encode } from '../src/encode';
 import { shouldCoerceToNull } from '../src/identifyType';
 
 describe('shouldCoerceToNull', () => {
-  it('returns true if the input value is of type undefined, Symbol, Function or null', () => {
+  it('returns true if the input value is of type undefined, Symbol, Function, BigInt or null', () => {
     const input = [
       function double(n: any) {
         return n * 2;
@@ -10,22 +10,16 @@ describe('shouldCoerceToNull', () => {
       Symbol('foo'),
       undefined,
       null,
+      BigInt(9007199254740991),
     ];
     const result = input.map(shouldCoerceToNull);
-    expect(result).toStrictEqual([true, true, true, true]);
+    expect(result).toStrictEqual([true, true, true, true, true]);
   });
 
   it('returns false if the input value is neither of type undefined, Symbol, Function nor null', () => {
-    const input = [
-      2,
-      'foo',
-      true,
-      BigInt(9007199254740991),
-      { foo: 'bar' },
-      [1, 3, true],
-    ];
+    const input = [2, 'foo', true, { foo: 'bar' }, [1, 3, true]];
     const result = input.map(shouldCoerceToNull);
-    expect(result).toStrictEqual([false, false, false, false, false, false]);
+    expect(result).toStrictEqual([false, false, false, false, false]);
   });
 });
 
@@ -80,10 +74,10 @@ describe('encode', () => {
       '"foo"',
       'true',
       'true',
-      '9007199254740991',
       'null',
       'null',
-      '',
+      'null',
+      '{"foo":"bar"}',
       '[1,3,true]',
       '1995-12-16T14:24:00.000Z',
       '["a",3,null,["a",3,null,[],null,null,null],null,null,null]',

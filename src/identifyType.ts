@@ -2,7 +2,8 @@ export const shouldCoerceToNull = (data: any) =>
   data === null ||
   data === undefined ||
   typeof data === 'function' ||
-  typeof data === 'symbol';
+  typeof data === 'symbol' ||
+  typeof data === 'bigint';
 
 export const isString = (data: any) =>
   typeof data === 'string' || data.constructor.name === 'String';

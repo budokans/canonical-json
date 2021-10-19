@@ -50,4 +50,47 @@ describe('isString', () => {
     const result = input.map(encode);
     expect(result).toStrictEqual(expected);
   });
+
+  // it('removes combining escapes', () => {
+  //   const input = [
+  //     '\u0307 U+0307 COMBINING DOT ABOVE',
+  //     '\u180B U+180B MONGOLIAN FREE VARIATION SELECTOR ONE',
+  //     '\u180C U+180C MONGOLIAN FREE VARIATION SELECTOR TWO',
+  //     '\u180D U+180D MONGOLIAN FREE VARIATION SELECTOR THREE',
+  //     '\uFE00 U+FE00 VARIATION SELECTOR-1',
+  //     '\uFE0F U+FE0F VARIATION SELECTOR-16',
+  //     '\uDB40\uDD00 U+E0100 VARIATION SELECTOR-17',
+  //     '\uDB40\uDDEF U+E01EF VARIATION SELECTOR-256',
+
+  //     { '\u0307': 'U+0307 COMBINING DOT ABOVE' },
+  //     { '\u180B': 'U+180B MONGOLIAN FREE VARIATION SELECTOR ONE' },
+  //     { '\u180C': 'U+180C MONGOLIAN FREE VARIATION SELECTOR TWO' },
+  //     { '\u180D': 'U+180D MONGOLIAN FREE VARIATION SELECTOR THREE' },
+  //     { '\uFE00': 'U+FE00 VARIATION SELECTOR-1' },
+  //     { '\uFE0F': 'U+FE0F VARIATION SELECTOR-16' },
+  //     { '\uDB40\uDD00': 'U+E0100 VARIATION SELECTOR-17' },
+  //     { '\uDB40\uDDEF': 'U+E01EF VARIATION SELECTOR-256' },
+  //   ];
+
+  //   const expected = [
+  //     '̇ U+0307 COMBINING DOT ABOVE',
+  //     '᠋ U+180B MONGOLIAN FREE VARIATION SELECTOR ONE',
+  //     '᠌ U+180C MONGOLIAN FREE VARIATION SELECTOR TWO',
+  //     '᠍ U+180D MONGOLIAN FREE VARIATION SELECTOR THREE',
+  //     '︀ U+FE00 VARIATION SELECTOR-1',
+  //     '️ U+FE0F VARIATION SELECTOR-16',
+  //     '󠄀 U+E0100 VARIATION SELECTOR-17',
+  //     '󠇯 U+E01EF VARIATION SELECTOR-256',
+  //     { '̇': 'U+0307 COMBINING DOT ABOVE' },
+  //     { '᠋': 'U+180B MONGOLIAN FREE VARIATION SELECTOR ONE' },
+  //     { '᠌': 'U+180C MONGOLIAN FREE VARIATION SELECTOR TWO' },
+  //     { '᠍': 'U+180D MONGOLIAN FREE VARIATION SELECTOR THREE' },
+  //     { '︀': 'U+FE00 VARIATION SELECTOR-1' },
+  //     { '️': 'U+FE0F VARIATION SELECTOR-16' },
+  //     { '󠄀': 'U+E0100 VARIATION SELECTOR-17' },
+  //     { '󠇯': 'U+E01EF VARIATION SELECTOR-256' },
+  //   ];
+
+  //   expect()
+  // });
 });
