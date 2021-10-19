@@ -1,13 +1,5 @@
 import { encode } from '../src/encode';
-import { shouldCoerceToNull, isString } from '../src/identifyType';
-
-describe('isString', () => {
-  it('returns true for strings and objects constructed with the String constructor', () => {
-    const input = ['foo', new String('bar')];
-    const result = input.map(isString);
-    expect(result).toStrictEqual([true, true]);
-  });
-});
+import { shouldCoerceToNull } from '../src/identifyType';
 
 describe('shouldCoerceToNull', () => {
   it('returns true if the input value is of type undefined, Symbol, Function or null', () => {

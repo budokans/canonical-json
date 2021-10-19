@@ -8,16 +8,17 @@ import {
 } from './identifyType';
 import { transformArray } from './array';
 import { coerceDateToJSONString, coerceToJsonNull } from './utils';
+import { coerceToString } from './string';
 
-export const coerceToString = (val: string | number) => `"${val.toString()}"`;
+const wrapWithSingleQuotes = (data: any) => ''.concat(data);
 
 export const encode = (data: any) => {
   return shouldCoerceToNull(data)
-    ? coerceToJsonNull()
+    ? wrapWithSingleQuotes(coerceToJsonNull())
     : isString(data)
-    ? coerceToString(data)
+    ? wrapWithSingleQuotes(coerceToString(data))
     : isBoolean(data)
-    ? `${data}`
+    ? wrapWithSingleQuotes(data)
     : isDate(data)
     ? coerceDateToJSONString(data)
     : isNumber(data)

@@ -4,7 +4,7 @@
   "description": "Encode and decode canonical JSON",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "start": "tsc --watch index.ts"
   },
   "repository": {
