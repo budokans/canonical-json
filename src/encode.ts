@@ -28,3 +28,13 @@ export const encode = (data: any) => {
     ? transformArray(data)
     : transformObject(data);
 };
+
+type JSONValue =
+  | string
+  | number
+  | null
+  | boolean
+  | JSONValue[]
+  | { [key: string]: JSONValue };
+
+export const decode = (json: string): JSONValue => JSON.parse(json);
