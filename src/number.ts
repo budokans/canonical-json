@@ -7,7 +7,7 @@ export const formatNonInt = (num: number) =>
   num.toExponential().toUpperCase().replace('+', '');
 
 export const handleNumber = (num: number) => {
-  return isUnsafeNum(num)
+  return isUnsafeNum(num) || Number.isNaN(num)
     ? null
     : Number.isInteger(num)
     ? num.toFixed()
