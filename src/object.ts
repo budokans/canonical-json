@@ -1,10 +1,37 @@
 import { encode } from './encode';
+import { coerceToString } from './string';
 
-// TO DO: Get this working right by converting all characters to code points and sorting by those.
-export const reOrderMembers = (obj: any) =>
-  Object.entries(obj).sort((a, b) =>
-    encode(b[0]) < encode(a[0]) ? 1 : b[0] === a[0] ? 0 : -1
-  );
+export const reOrderMembers = (obj: any) => {
+  return Object.entries(obj).sort((a, b) => {
+    const getCodePoints = (char: string) =>
+      char.length > 1
+        ? char.charCodeAt(0) + char.charCodeAt(1)
+        : char.charCodeAt(0);
+
+    const keyAAsString = a[0].toString();
+    const keyBAsString = b[0].toString();
+
+    const charsKeyA = [...keyAAsString].map(getCodePoints);
+    const charsKeyB = [...keyBAsString].map(getCodePoints);
+
+    let result = 0;
+
+    charsKeyA.some((codePointA, idx) => {
+      const codePointB = charsKeyB[idx];
+      if (!codePointB) {
+        result = 1;
+        return true;
+      }
+      if (charsKeyA !== charsKeyB) {
+        result = codePointA - codePointB;
+        return true;
+      }
+      return false;
+    });
+
+    return result;
+  });
+};
 
 export const constructOrderedObj = (orderedEntries: any[]) => {
   const orderedObj: any = {};
@@ -12,15 +39,13 @@ export const constructOrderedObj = (orderedEntries: any[]) => {
   return orderedObj;
 };
 
-export const transformObject = (obj: any) => {
+export const encodeObj = (obj: any): any => {
   const orderedMembers = reOrderMembers(obj);
-  const orderedObject = constructOrderedObj(orderedMembers);
-  const partial: any[] = [];
+  const encodedDeep = orderedMembers.map(([key, value]) => [
+    coerceToString(key),
+    encode(value),
+  ]);
 
-  Object.entries(orderedObject).forEach(([key, value]) => {
-    partial.push([encode(key), encode(value)]);
-  });
-
-  const keyValsJoined = partial.map((entry) => entry.join(':'));
+  const keyValsJoined = encodedDeep.map((entry) => entry.join(':'));
   return `{${keyValsJoined.join(',')}}`;
 };
