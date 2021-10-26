@@ -1,28 +1,29 @@
-import { encode } from './encode';
+import * as R from 'ramda';
+import { encode, JSONValue } from './encode';
 import { coerceToString } from './string';
 
 export const reOrderMembers = (obj: any) => {
   return Object.entries(obj).sort((a, b) => {
+    const keyAAsString = a[0].toString();
+    const keyBAsString = b[0].toString();
+
     const getCodePoints = (char: string) =>
       char.length > 1
         ? char.charCodeAt(0) + char.charCodeAt(1)
         : char.charCodeAt(0);
 
-    const keyAAsString = a[0].toString();
-    const keyBAsString = b[0].toString();
-
-    const charsKeyA = [...keyAAsString].map(getCodePoints);
-    const charsKeyB = [...keyBAsString].map(getCodePoints);
+    const charCodesKeyA = [...keyAAsString].map(getCodePoints);
+    const charCodesKeyB = [...keyBAsString].map(getCodePoints);
 
     let result = 0;
 
-    charsKeyA.some((codePointA, idx) => {
-      const codePointB = charsKeyB[idx];
+    charCodesKeyA.some((codePointA, idx) => {
+      const codePointB = charCodesKeyB[idx];
       if (!codePointB) {
         result = 1;
         return true;
       }
-      if (charsKeyA !== charsKeyB) {
+      if (codePointA !== codePointB) {
         result = codePointA - codePointB;
         return true;
       }
@@ -33,19 +34,32 @@ export const reOrderMembers = (obj: any) => {
   });
 };
 
-export const constructOrderedObj = (orderedEntries: any[]) => {
+type ObjectEntry = [key: string, val: unknown];
+type JSONEncodedObjectEntry = [key: string, val: JSONValue];
+
+export const constructOrderedObj = (orderedEntries: ObjectEntry[]) => {
   const orderedObj: any = {};
   orderedEntries.forEach((entry) => (orderedObj[entry[0]] = entry[1]));
   return orderedObj;
 };
 
-export const encodeObj = (obj: any): any => {
-  const orderedMembers = reOrderMembers(obj);
-  const encodedDeep = orderedMembers.map(([key, value]) => [
-    coerceToString(key),
-    encode(value),
-  ]);
-
-  const keyValsJoined = encodedDeep.map((entry) => entry.join(':'));
-  return `{${keyValsJoined.join(',')}}`;
+const encodeDeep = (entries: ObjectEntry[]): JSONEncodedObjectEntry[] => {
+  return entries.map(([key, value]) => [coerceToString(key), encode(value)]);
 };
+
+const joinKeyAndVal = (entry: JSONEncodedObjectEntry) => entry.join(':');
+
+const joinAllKeysAndVals = (members: JSONEncodedObjectEntry[]) =>
+  members.map(joinKeyAndVal);
+
+const joinAllMembers = (members: string[]) => members.join(',');
+
+const wrapInCurlyBrackets = (dataString: string) => `{${dataString}}`;
+
+export const transformObj = R.pipe(
+  reOrderMembers,
+  encodeDeep,
+  joinAllKeysAndVals,
+  joinAllMembers,
+  wrapInCurlyBrackets
+);

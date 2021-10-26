@@ -9,7 +9,7 @@ import {
 import { transformArray } from './array';
 import { coerceDateToJSONString, coerceToJsonNull } from './utils';
 import { coerceToString } from './string';
-import { encodeObj } from './object';
+import { transformObj } from './object';
 
 const wrapWithSingleQuotes = (data: any) => ''.concat(data);
 
@@ -26,10 +26,10 @@ export const encode = (data: any) => {
     ? wrapWithSingleQuotes(handleNumber(data))
     : isArray(data)
     ? transformArray(data)
-    : encodeObj(data);
+    : transformObj(data);
 };
 
-type JSONValue =
+export type JSONValue =
   | string
   | number
   | null

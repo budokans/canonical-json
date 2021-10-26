@@ -1,5 +1,9 @@
 import { encode } from '../src/encode';
-import { constructOrderedObj, encodeObj, reOrderMembers } from '../src/object';
+import {
+  constructOrderedObj,
+  transformObj,
+  reOrderMembers,
+} from '../src/object';
 
 describe('reOrderMembers', () => {
   it('returns object members in correct order', () => {
@@ -176,11 +180,12 @@ describe('transformObject', () => {
         a: 2222222,
         b: false,
       },
+      obi: {},
     };
 
     const expected =
-      '{"3":"one","a":2,"obj":{"a":2222222,"b":false},"the":[1,true,null,null,{"foo":"bar"}]}';
+      '{"3":"one","a":2,"obi":{},"obj":{"a":2222222,"b":false},"the":[1,true,null,null,{"foo":"bar"}]}';
 
-    expect(encodeObj(input)).toStrictEqual(expected);
+    expect(transformObj(input)).toStrictEqual(expected);
   });
 });
